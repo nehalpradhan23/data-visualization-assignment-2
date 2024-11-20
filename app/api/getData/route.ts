@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 export async function GET() {
   const apiKey = process.env.GOOGLE_SHEET_API_KEY; // Replace with your API key
   const spreadsheetId = "1l7GstWHc69HPV0irSdvoMIyHgtufUPKsbtCiNw7IKR0"; // Replace with your spreadsheet ID

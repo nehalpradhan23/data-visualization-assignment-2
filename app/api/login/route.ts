@@ -1,10 +1,12 @@
 import connectToDB from "@/lib/mongodb";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-export async function POST(request: Request) {
+export const dynamic = "force-dynamic";
+
+export async function POST(request: NextRequest) {
   try {
     await connectToDB();
     const { email, password } = await request.json();

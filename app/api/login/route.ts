@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 export const dynamic = "force-dynamic";
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
     await connectToDB();
     const { email, password } = await request.json();

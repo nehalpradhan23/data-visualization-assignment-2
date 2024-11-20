@@ -3,7 +3,8 @@ import User from "@/models/User";
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
-export async function POST(request: NextRequest) {
+
+export async function POST(request: Request) {
   try {
     await connectToDB();
     const { name, email, password } = await request.json();

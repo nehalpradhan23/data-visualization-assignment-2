@@ -1,7 +1,7 @@
 import { useGlobalContext } from "@/context/ContextApi";
 import { SheetDataObject } from "@/types/types";
 import { isAfter, isBefore, parse } from "date-fns";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -87,7 +87,7 @@ export const MyBarChart = () => {
     startDate,
     endDate
   );
-  // console.log("transformed data: ", transformedData);
+  console.log("transformed data: ", transformedData);
 
   const handleBarClick = (data: any) => {
     setSelectedBarValue(data.name);

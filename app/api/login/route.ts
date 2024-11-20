@@ -49,6 +49,7 @@ export async function POST(request: Request) {
       finalData,
     });
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: "POST error", status: 400 });
   }
 }

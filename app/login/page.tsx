@@ -8,11 +8,11 @@ import Cookies from "js-cookie";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState<any>();
+  const [errorMessage, setErrorMessage] = useState<any>(undefined);
   const router = useRouter();
 
   const {
-    userObject: { user, isAuthUser, setIsAuthUser, setUser },
+    userObject: { isAuthUser, setIsAuthUser, setUser },
   } = useGlobalContext();
 
   const handleSubmit = async (e: any) => {

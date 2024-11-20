@@ -1,14 +1,27 @@
+// import mongoose from "mongoose";
+
+// // nehalpradhan23
+
+// const connectToDB = async () => {
+//   try {
+//     await mongoose.connect(process.env.MongoURL as string);
+//     console.log("Database connected...");
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// export default connectToDB;
+
 import mongoose from "mongoose";
 
-// nehalpradhan23
-
-const connectToDB = async () => {
+async function connect(): Promise<void> {
   try {
     await mongoose.connect(process.env.MongoURL as string);
-    console.log("Database connected...");
+    console.log("DB connected...");
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
-};
+}
 
-export default connectToDB;
+export default connect;

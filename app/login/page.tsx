@@ -15,7 +15,7 @@ const LoginPage = () => {
     userObject: { isAuthUser, setIsAuthUser, setUser },
   } = useGlobalContext();
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await axios.post("/api/login", {

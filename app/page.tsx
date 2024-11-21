@@ -44,9 +44,9 @@ const MainHome: React.FC = () => {
     }, 4000);
   };
 
-  useEffect(() => {
-    if (isAuthUser === undefined) router.push("/login");
-  }, []);
+  // useEffect(() => {
+  //   if (isAuthUser === undefined) router.push("/login");
+  // }, []);
 
   useEffect(() => {
     if (searchParams.entries().toArray().length > 0) {
@@ -66,6 +66,7 @@ const MainHome: React.FC = () => {
       setStartDate(newStartDate);
       setEndDate(newEndDate);
     }
+    if (isAuthUser === undefined) router.push("/login");
   }, [searchParams]);
   // =========================================================
   return (

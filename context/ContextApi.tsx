@@ -2,6 +2,7 @@
 import { GlobalContextType, SheetDataObject } from "@/types/types";
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 // import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const ContextProvider = createContext<GlobalContextType>({
@@ -70,6 +71,8 @@ export default function GlobalContextProvider({
 
   const [shareableUrl, setShareableUrl] = useState<string>("");
 
+  const router = useRouter();
+
   // const searchParams = useSearchParams();
   // get query==============================================================================
   // useEffect(() => {
@@ -105,7 +108,7 @@ export default function GlobalContextProvider({
       setUser(userData);
     } else {
       setIsAuthUser(false);
-      // router.push("/login");
+      router.push("/login");
     }
   }, [Cookies]);
 

@@ -2,7 +2,7 @@
 import { GlobalContextType, SheetDataObject } from "@/types/types";
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const ContextProvider = createContext<GlobalContextType>({
   formattedDataObject: { formattedData: [], setFormattedData: () => {} },
@@ -29,6 +29,14 @@ const ContextProvider = createContext<GlobalContextType>({
     setUser: () => {},
     isAuthUser: undefined,
     setIsAuthUser: () => {},
+  },
+  storeAllFiltersObject: {
+    storeAllFilters: {},
+    setStoreAllFilters: () => {},
+  },
+  shareableUrlObject: {
+    shareableUrl: "",
+    setShareableUrl: () => {},
   },
 });
 
@@ -57,7 +65,26 @@ export default function GlobalContextProvider({
 
   const [user, setUser] = useState<undefined>(undefined);
   const [isAuthUser, setIsAuthUser] = useState<boolean | undefined>(undefined);
-  // =========================================
+
+  const [storeAllFilters, setStoreAllFilters] = useState({});
+
+  const [shareableUrl, setShareableUrl] = useState<string>("");
+  // console.log("store all filters: ", storeAllFilters);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  // get query
+  useEffect(() => {
+    // const query = router.;
+    console.log("searchparams", Array.from(searchParams.entries()));
+  }, []);
+
+  // store sharable utl query =========================================
+  useEffect(() => {
+    const query = new URLSearchParams(storeAllFilters).toString();
+    setShareableUrl(query);
+    // console.log("query: ", query);
+  }, [storeAllFilters]);
 
   // authenticate ---------------------------
   useEffect(() => {
@@ -71,6 +98,7 @@ export default function GlobalContextProvider({
       // router.push("/login");
     }
   }, [Cookies]);
+
   // fetch data ============================================
   useEffect(() => {
     const fetchSheetData = async () => {
@@ -109,8 +137,15 @@ export default function GlobalContextProvider({
     }
   }, [rawData]);
 
+  // console.log("formatted data: ", formattedData);
+
   // save data ==============================
   useEffect(() => {
+    if (selectedBarValue) {
+      Cookies.set("selectedBarValue", selectedBarValue);
+    } else {
+      Cookies.remove("selectedBarValue");
+    }
     if (ageFilter) {
       Cookies.set("ageFilter", ageFilter);
     } else {
@@ -122,6 +157,7 @@ export default function GlobalContextProvider({
       Cookies.remove("genderFilter");
     }
     if (startDate) {
+      // Cookies.set("startDate", startDate.toString());
       Cookies.set("startDate", startDate.toISOString());
     } else {
       Cookies.remove("startDate");
@@ -131,7 +167,7 @@ export default function GlobalContextProvider({
     } else {
       Cookies.remove("endDate");
     }
-  }, [ageFilter, genderFilter, startDate, endDate]);
+  }, [selectedBarValue, ageFilter, genderFilter, startDate, endDate]);
 
   // ==============================================
   return (
@@ -143,6 +179,8 @@ export default function GlobalContextProvider({
         genderFilterObject: { genderFilter, setGenderFilter },
         dateObject: { startDate, endDate, setEndDate, setStartDate },
         userObject: { user, setUser, isAuthUser, setIsAuthUser },
+        storeAllFiltersObject: { storeAllFilters, setStoreAllFilters },
+        shareableUrlObject: { shareableUrl, setShareableUrl },
       }}
     >
       {children}

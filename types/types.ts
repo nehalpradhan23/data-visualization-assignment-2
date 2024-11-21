@@ -40,4 +40,12 @@ export interface GlobalContextType {
     isAuthUser: boolean | undefined;
     setIsAuthUser: React.Dispatch<React.SetStateAction<boolean | undefined>>;
   };
+  storeAllFiltersObject: {
+    storeAllFilters: {};
+    setStoreAllFilters: React.Dispatch<React.SetStateAction<{}>>;
+  };
+  shareableUrlObject: {
+    shareableUrl: string;
+    setShareableUrl: React.Dispatch<React.SetStateAction<string>>;
+  };
 }

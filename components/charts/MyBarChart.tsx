@@ -1,5 +1,6 @@
 import { useGlobalContext } from "@/context/ContextApi";
 import { SheetDataObject } from "@/types/types";
+import { handleFilterChange } from "@/utils/saveFilterData";
 import { isAfter, isBefore, parse } from "date-fns";
 import React, { useEffect } from "react";
 import {
@@ -23,6 +24,7 @@ export const MyBarChart = () => {
     ageFilterObject: { ageFilter },
     genderFilterObject: { genderFilter },
     dateObject: { startDate, endDate },
+    storeAllFiltersObject: { storeAllFilters, setStoreAllFilters },
   } = useGlobalContext();
 
   // aggregate data for bar chart ============================
@@ -87,9 +89,19 @@ export const MyBarChart = () => {
     startDate,
     endDate
   );
-  console.log("transformed data: ", transformedData);
+  // console.log("transformed data: ", transformedData);
 
   const handleBarClick = (data: any) => {
+    handleFilterChange(
+      "selectedBarValue",
+      data.name,
+      storeAllFilters,
+      setStoreAllFilters
+    );
+    if (selectedBarValue === data.name) {
+      setSelectedBarValue(null);
+      return;
+    }
     setSelectedBarValue(data.name);
   };
 

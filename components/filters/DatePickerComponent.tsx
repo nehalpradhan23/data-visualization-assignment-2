@@ -1,36 +1,46 @@
 import { useGlobalContext } from "@/context/ContextApi";
+import { parseDate } from "@/utils/getDate";
+import { handleFilterChange } from "@/utils/saveFilterData";
 import { format, max, min, parse } from "date-fns";
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
-import { start } from "repl";
 
 export const DatePickerComponent = () => {
   const {
     dateObject: { startDate, setEndDate, endDate, setStartDate },
     formattedDataObject: { formattedData },
+    storeAllFiltersObject: { storeAllFilters, setStoreAllFilters },
   } = useGlobalContext();
 
   const handleStartDateChange = (date: any) => {
+    handleFilterChange("startDate", date, storeAllFilters, setStoreAllFilters);
     setStartDate(date);
   };
   const handleEndDateChange = (date: any) => {
+    handleFilterChange("endDate", date, storeAllFilters, setStoreAllFilters);
     setEndDate(date);
   };
 
   // console.log("start and end date: ", startDate, endDate);
 
   // set date
-  const parseDate = (dateString: string) =>
-    parse(dateString, "dd/MM/yyyy", new Date());
+  // const parseDate = (dateString: string) =>
+  //   parse(dateString, "dd/MM/yyyy", new Date());
+
   useEffect(() => {
-    const dates = formattedData.map((item) => parseDate(item.Day));
+    const dates = formattedData?.map((item) => item?.Day);
+    // const dates = formattedData?.map((item) => parseDate(item?.Day)); // long
+
     if (dates.length > 0) {
       if (startDate === null && endDate == null) {
-        setStartDate(min(dates));
-        setEndDate(max(dates));
+        setStartDate(new Date(formattedData[0].Day));
+        setStartDate(new Date(formattedData[formattedData.length - 1].Day));
+        // setStartDate(min(dates));
+        // setEndDate(max(dates));
       }
     }
   }, [formattedData]);
+
   // console.log("start and end date:======== ", startDate, endDate);
 
   return (

@@ -3,17 +3,20 @@ import { MyBarChart } from "@/components/charts/MyBarChart";
 import { MyLineChart } from "@/components/charts/MyLineChart";
 import { Filters } from "@/components/filters/Filters";
 import { useGlobalContext } from "@/context/ContextApi";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const {
     formattedDataObject: { formattedData },
     selectedBarValueObject: { selectedBarValue },
     userObject: { isAuthUser, setIsAuthUser, setUser },
+    shareableUrlObject: { shareableUrl },
   } = useGlobalContext();
+
   const router = useRouter();
+  const [shareToast, setShareToast] = useState(false);
 
   const handleLogOut = () => {
     setIsAuthUser(false);
@@ -23,26 +26,43 @@ export default function Home() {
     router.push("/login");
   };
 
+  // ===========================================================
+  const handleShareUrl = () => {
+    setShareToast(true);
+    const currentDomain = window.location.origin;
+
+    window.navigator.clipboard.writeText(`${currentDomain}/?` + shareableUrl);
+
+    setTimeout(() => {
+      setShareToast(false);
+    }, 4000);
+  };
+
   useEffect(() => {
     if (isAuthUser === undefined) router.push("/login");
   }, []);
 
-  // if (isAuthUser === undefined) {
-  //   router.push("/login");
-  // }
-
-  // {"Day":"4/10/2022","Age":"15-25","Gender":"Male","A":"880","B":"815","C":"825","D":"444","E":"154","F":"859"}
-  // {"Day":"4/10/2022","Age":">25","Gender":"Male","A":"955","B":"674","C":"427","D":"401","E":"820","F":"311"}
-  // {"Day":"4/10/2022","Age":"15-25","Gender":"Female","A":"777","B":"711","C":"817","D":"167","E":"85","F":"704"}
-  // {"Day":"4/10/2022","Age":">25","Gender":"Female","A":"895","B":"236","C":"276","D":"373","E":"840","F":"891"}
+  // =========================================================================
 
   return (
     <div className="mx-[20px]">
-      <div className="flex w-full justify-end">
-        <button
-          className="text-2xl justify-end pr-5 mt-5"
-          onClick={handleLogOut}
-        >
+      <div className="flex w-full py-4 gap-4 justify-between">
+        <div className="flex items-center gap-4">
+          <button
+            className="flex items-center gap-2 border border-gray-400 px-3 py-1 rounded-full bg-slate-200"
+            onClick={handleShareUrl}
+          >
+            Share URL
+          </button>
+          {shareToast && <span>URL copied</span>}
+        </div>
+        {/* <div className="flex-1 flex items-center gap-2 border border-gray-200 px-3 py-1 rounded-full bg-slate-200">
+          <button className="border-r border-black px-2">Share URL</button>
+          <label htmlFor="" className="text-gray-400">
+            {shareableUrl}
+          </label>
+        </div> */}
+        <button className="text-2xl" onClick={handleLogOut}>
           Logout
         </button>
       </div>

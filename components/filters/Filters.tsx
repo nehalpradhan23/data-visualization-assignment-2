@@ -3,6 +3,8 @@ import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { DatePickerComponent } from "./DatePickerComponent";
 import { parse } from "date-fns";
+import { handleFilterChange } from "@/utils/saveFilterData";
+import { parseDate } from "@/utils/getDate";
 
 export const Filters = () => {
   const {
@@ -10,22 +12,39 @@ export const Filters = () => {
     genderFilterObject: { genderFilter, setGenderFilter },
     dateObject: { setStartDate, setEndDate },
     formattedDataObject: { formattedData },
+    storeAllFiltersObject: { storeAllFilters, setStoreAllFilters },
+    selectedBarValueObject: { setSelectedBarValue },
   } = useGlobalContext();
 
   const handleAgeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    handleFilterChange(
+      "ageFilter",
+      event.target.value,
+      storeAllFilters,
+      setStoreAllFilters
+    );
     setAgeFilter(event.target.value || null);
   };
   const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    handleFilterChange(
+      "genderFilter",
+      event.target.value,
+      storeAllFilters,
+      setStoreAllFilters
+    );
     setGenderFilter(event.target.value || null);
   };
 
+  // reset filters ---------------------------------------------
   const resetFilters = () => {
     setAgeFilter(null);
+    setSelectedBarValue(null);
     setGenderFilter(null);
-    const parseDate = (dateString: string) =>
-      parse(dateString, "dd/MM/yyyy", new Date());
+    // const parseDate = (dateString: string) =>
+    //   parse(dateString, "dd/MM/yyyy", new Date());
     setStartDate(parseDate(formattedData[0].Day));
     setEndDate(parseDate(formattedData[formattedData.length - 1].Day));
+    setStoreAllFilters({});
   };
 
   // ================================================================

@@ -24,19 +24,19 @@ export const DatePickerComponent = () => {
   // console.log("start and end date: ", startDate, endDate);
 
   // set date
-  // const parseDate = (dateString: string) =>
-  //   parse(dateString, "dd/MM/yyyy", new Date());
+  const parseDate = (dateString: string) =>
+    parse(dateString, "dd/MM/yyyy", new Date());
 
   useEffect(() => {
-    const dates = formattedData?.map((item) => item?.Day);
-    // const dates = formattedData?.map((item) => parseDate(item?.Day)); // long
+    // const dates = formattedData?.map((item) => item?.Day);
+    const dates = formattedData?.map((item) => parseDate(item?.Day)); // long
 
     if (dates.length > 0) {
       if (startDate === null && endDate == null) {
-        setStartDate(new Date(formattedData[0].Day));
-        setStartDate(new Date(formattedData[formattedData.length - 1].Day));
-        // setStartDate(min(dates));
-        // setEndDate(max(dates));
+        // setStartDate(new Date(formattedData[0].Day));
+        // setStartDate(new Date(formattedData[formattedData.length - 1].Day));
+        setStartDate(min(dates));
+        setEndDate(max(dates));
       }
     }
   }, [formattedData]);

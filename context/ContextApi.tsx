@@ -2,7 +2,8 @@
 import { GlobalContextType, SheetDataObject } from "@/types/types";
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { parseDate } from "@/utils/getDate";
 
 const ContextProvider = createContext<GlobalContextType>({
   formattedDataObject: { formattedData: [], setFormattedData: () => {} },
@@ -72,14 +73,29 @@ export default function GlobalContextProvider({
   // console.log("store all filters: ", storeAllFilters);
 
   const router = useRouter();
-  const searchParams = useSearchParams();
-  // get query
-  useEffect(() => {
-    // const query = router.;
-    console.log("searchparams", Array.from(searchParams.entries()));
-  }, []);
+  // console.log(router);
 
-  // store sharable utl query =========================================
+  const searchParams = useSearchParams();
+  // const path = usePathname();
+  // get query==============================================================================
+  useEffect(() => {
+    if (searchParams.entries().toArray().length > 0) {
+      console.log("searchparams", Array.from(searchParams.entries()));
+      const barValue = searchParams.get("selectedBarValue") || null;
+      const ageFilter = searchParams.get("ageFilter") || null;
+      const genderFilter = searchParams.get("genderFilter") || null;
+      const startDate = searchParams.get("startDate") || null;
+      const endDate = searchParams.get("endDate") || null;
+
+      setSelectedBarValue(barValue);
+      setAgeFilter(ageFilter);
+      setGenderFilter(genderFilter);
+      // setStartDate(startDate)
+      // setEndDate(endDate)
+    }
+  }, [searchParams]);
+
+  // store sharable url query =========================================
   useEffect(() => {
     const query = new URLSearchParams(storeAllFilters).toString();
     setShareableUrl(query);

@@ -5,17 +5,23 @@ import { Filters } from "@/components/filters/Filters";
 import { useGlobalContext } from "@/context/ContextApi";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
+import { parseDate } from "@/utils/getDate";
 
-export default function Home() {
+const MainHome: React.FC = () => {
   const {
     formattedDataObject: { formattedData },
-    selectedBarValueObject: { selectedBarValue },
+    selectedBarValueObject: { selectedBarValue, setSelectedBarValue },
     userObject: { isAuthUser, setIsAuthUser, setUser },
     shareableUrlObject: { shareableUrl },
+    ageFilterObject: { setAgeFilter },
+    genderFilterObject: { setGenderFilter },
+    dateObject: { setStartDate, setEndDate },
   } = useGlobalContext();
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [shareToast, setShareToast] = useState(false);
 
   const handleLogOut = () => {
@@ -42,8 +48,26 @@ export default function Home() {
     if (isAuthUser === undefined) router.push("/login");
   }, []);
 
-  // =========================================================================
+  useEffect(() => {
+    if (searchParams.entries().toArray().length > 0) {
+      console.log("searchparams", Array.from(searchParams.entries()));
+      const barValue = searchParams.get("selectedBarValue") || null;
+      const ageFilter = searchParams.get("ageFilter") || null;
+      const genderFilter = searchParams.get("genderFilter") || null;
+      const startDateString = searchParams?.get("startDate") || null;
+      const endDateString = searchParams?.get("endDate") || null;
 
+      const newStartDate = startDateString ? new Date(startDateString) : null;
+      const newEndDate = endDateString ? new Date(endDateString) : null;
+
+      setSelectedBarValue(barValue);
+      setAgeFilter(ageFilter);
+      setGenderFilter(genderFilter);
+      setStartDate(newStartDate);
+      setEndDate(newEndDate);
+    }
+  }, [searchParams]);
+  // =========================================================
   return (
     <div className="mx-[20px]">
       <div className="flex w-full py-4 gap-4 justify-between">
@@ -85,5 +109,13 @@ export default function Home() {
         </div>
       )}
     </div>
+  );
+};
+
+export default function Home() {
+  return (
+    <Suspense>
+      <MainHome />
+    </Suspense>
   );
 }

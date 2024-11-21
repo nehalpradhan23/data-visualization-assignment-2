@@ -41,7 +41,8 @@ export const DatePickerComponent = () => {
     }
   }, [formattedData]);
 
-  // console.log("start and end date:======== ", startDate, endDate);
+  console.log("start date without searchparams: ======== ", startDate);
+  console.log("end date without searchparams: ======== ", endDate);
 
   return (
     <div>

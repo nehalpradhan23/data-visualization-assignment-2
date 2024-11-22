@@ -62,7 +62,6 @@ const LoginPage = () => {
       setErrorMessage(axiosError.response?.data);
     } finally {
       setLoading(false);
-      setErrorMessage("");
     }
   };
   // console.log("user data: ", user);

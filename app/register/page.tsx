@@ -55,7 +55,6 @@ export default function Registration() {
       console.log(axiosError.response?.data);
     } finally {
       setLoading(false);
-      setErrorMessage("");
     }
   };
   useEffect(() => {

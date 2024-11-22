@@ -13,7 +13,7 @@ const MainHome: React.FC = () => {
     formattedDataObject: { formattedData },
     selectedBarValueObject: { selectedBarValue, setSelectedBarValue },
     userObject: { isAuthUser, setIsAuthUser, setUser },
-    shareableUrlObject: { shareableUrl },
+    shareableUrlObject: { shareableUrl, setShareableUrl },
     ageFilterObject: { setAgeFilter },
     genderFilterObject: { setGenderFilter },
     dateObject: { setStartDate, setEndDate },
@@ -45,9 +45,16 @@ const MainHome: React.FC = () => {
     }, 4000);
   };
 
-  // useEffect(() => {
-  //   if (isAuthUser === undefined) router.push("/login");
-  // }, []);
+  // get previous url on refresh ==============
+  useEffect(() => {
+    const url = Cookies?.get("storeShareableUrl");
+    if (url) {
+      setShareableUrl(url);
+    } else {
+      setShareableUrl("");
+    }
+    console.log(url);
+  }, []);
 
   useEffect(() => {
     if (searchParams.entries().toArray().length > 0) {
@@ -67,7 +74,7 @@ const MainHome: React.FC = () => {
       setStartDate(newStartDate);
       setEndDate(newEndDate);
 
-      setStoreAllFilters(Object.fromEntries(searchParams)); // store sharable url i search params
+      setStoreAllFilters(Object.fromEntries(searchParams)); // store sharable url if search params
     }
 
     if (isAuthUser === undefined) router.push("/login");

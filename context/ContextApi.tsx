@@ -69,29 +69,20 @@ export default function GlobalContextProvider({
 
   const [storeAllFilters, setStoreAllFilters] = useState({}); // store for filters for sharing
 
-  const [shareableUrl, setShareableUrl] = useState<string>(""); // sharable url
-
-  // const [storeSearchParams, setStoreSearchParams] = useState("");
-
-  // const [sharableQuery, setSharableQuery] = useState(
-  //   Cookies.get("sharableQuery") || ""
-  // );
+  const [shareableUrl, setShareableUrl] = useState<string>(
+    Cookies.get("storeShareableUrl")?.toString() || ""
+  ); // sharable url
 
   const router = useRouter();
-
-  // console.log("All filters: ", storeAllFilters);
 
   // store sharable url query =========================================
   useEffect(() => {
     const query = new URLSearchParams(storeAllFilters).toString();
-    // Cookies.set("sharableQuery", sharableQuery);
     setShareableUrl(query);
-    // setSharableQuery(shareableUrl);
   }, [storeAllFilters]);
 
   // authenticate ---------------------------
   useEffect(() => {
-    // if (sharableQuery) setShareableUrl(sharableQuery);
     if (Cookies.get("token") !== undefined) {
       setIsAuthUser(true);
       const userData: any = JSON.parse(localStorage.getItem("user")!) || {};
@@ -139,7 +130,7 @@ export default function GlobalContextProvider({
     }
   }, [rawData]);
 
-  // save data ==============================
+  // save data as Cookies ==============================
   useEffect(() => {
     if (selectedBarValue) {
       Cookies.set("selectedBarValue", selectedBarValue);
@@ -166,16 +157,18 @@ export default function GlobalContextProvider({
     } else {
       Cookies.remove("endDate");
     }
-    // if (storeAllFilters) {
-    //   Cookies.set("sharableQuery", shareableUrl);
-    // }
+    if (shareableUrl) {
+      Cookies.set("storeShareableUrl", shareableUrl);
+    } else {
+      Cookies.remove("storeShareableUrl");
+    }
   }, [
     selectedBarValue,
     ageFilter,
     genderFilter,
     startDate,
     endDate,
-    // storeAllFilters,
+    shareableUrl,
   ]);
 
   // ==============================================

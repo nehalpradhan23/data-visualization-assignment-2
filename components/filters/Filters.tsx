@@ -13,6 +13,7 @@ export const Filters = () => {
     formattedDataObject: { formattedData },
     storeAllFiltersObject: { storeAllFilters, setStoreAllFilters },
     selectedBarValueObject: { setSelectedBarValue },
+    shareableUrlObject: { setShareableUrl },
   } = useGlobalContext();
 
   const handleAgeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -44,6 +45,7 @@ export const Filters = () => {
     setStartDate(parseDate(formattedData[0].Day));
     setEndDate(parseDate(formattedData[formattedData.length - 1].Day));
     setStoreAllFilters({});
+    setShareableUrl("");
   };
 
   // ================================================================

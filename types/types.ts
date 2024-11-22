@@ -48,4 +48,8 @@ export interface GlobalContextType {
     shareableUrl: string;
     setShareableUrl: React.Dispatch<React.SetStateAction<string>>;
   };
+  isUrlObject: {
+    isUrl: boolean;
+    setIsUrl: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 }

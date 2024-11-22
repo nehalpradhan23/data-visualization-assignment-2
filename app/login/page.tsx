@@ -15,6 +15,7 @@ const LoginPage = () => {
 
   const {
     userObject: { isAuthUser, setIsAuthUser, setUser },
+    isUrlObject: { isUrl, setIsUrl },
   } = useGlobalContext();
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -62,6 +63,7 @@ const LoginPage = () => {
       setErrorMessage(axiosError.response?.data);
     } finally {
       setLoading(false);
+      setIsUrl(false);
     }
   };
   // console.log("user data: ", user);
@@ -71,8 +73,16 @@ const LoginPage = () => {
     if (isAuthUser) router.push("/");
   }, [isAuthUser]);
 
+  console.log("is URL: ==============", isUrl);
+
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div className="w-full h-screen flex flex-col items-center justify-center bg-gray-100 relative">
+      {isUrl && (
+        <div className="absolute top-4 bg-green-600 text-3xl px-4 py-2 rounded-full shadow-xl text-white">
+          Login to view the data
+        </div>
+      )}
+
       <div className="flex flex-col w-[400px] border border-black h-fit p-5 rounded-3xl shadow-xl bg-slate-200">
         <h2 className="font-bold text-3xl mx-auto">Login</h2>
         <form

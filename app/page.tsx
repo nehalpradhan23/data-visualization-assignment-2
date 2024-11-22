@@ -3,14 +3,12 @@ import { MyBarChart } from "@/components/charts/MyBarChart";
 import { MyLineChart } from "@/components/charts/MyLineChart";
 import { Filters } from "@/components/filters/Filters";
 import { useGlobalContext } from "@/context/ContextApi";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 import React, { Suspense, useEffect, useState } from "react";
-import { parseDate } from "@/utils/getDate";
 
 const MainHome: React.FC = () => {
   const {
-    formattedDataObject: { formattedData },
     selectedBarValueObject: { selectedBarValue, setSelectedBarValue },
     userObject: { isAuthUser, setIsAuthUser, setUser },
     shareableUrlObject: { shareableUrl, setShareableUrl },
@@ -18,6 +16,7 @@ const MainHome: React.FC = () => {
     genderFilterObject: { setGenderFilter },
     dateObject: { setStartDate, setEndDate },
     storeAllFiltersObject: { storeAllFilters, setStoreAllFilters },
+    isUrlObject: { setIsUrl },
   } = useGlobalContext();
 
   const router = useRouter();
@@ -31,6 +30,7 @@ const MainHome: React.FC = () => {
     Cookies.remove("token");
     localStorage.clear();
     router.push("/login");
+    setIsUrl(false);
   };
 
   // ===========================================================
@@ -73,6 +73,7 @@ const MainHome: React.FC = () => {
       setGenderFilter(genderFilter);
       setStartDate(newStartDate);
       setEndDate(newEndDate);
+      setIsUrl(true);
 
       setStoreAllFilters(Object.fromEntries(searchParams)); // store sharable url if search params
     }

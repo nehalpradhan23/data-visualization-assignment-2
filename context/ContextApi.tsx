@@ -39,6 +39,10 @@ const ContextProvider = createContext<GlobalContextType>({
     shareableUrl: "",
     setShareableUrl: () => {},
   },
+  isUrlObject: {
+    isUrl: false,
+    setIsUrl: () => {},
+  },
 });
 
 export default function GlobalContextProvider({
@@ -72,6 +76,8 @@ export default function GlobalContextProvider({
   const [shareableUrl, setShareableUrl] = useState<string>(
     Cookies.get("storeShareableUrl")?.toString() || ""
   ); // sharable url
+
+  const [isUrl, setIsUrl] = useState(false);
 
   const router = useRouter();
 
@@ -183,6 +189,7 @@ export default function GlobalContextProvider({
         userObject: { user, setUser, isAuthUser, setIsAuthUser },
         storeAllFiltersObject: { storeAllFilters, setStoreAllFilters },
         shareableUrlObject: { shareableUrl, setShareableUrl },
+        isUrlObject: { isUrl, setIsUrl },
       }}
     >
       {children}

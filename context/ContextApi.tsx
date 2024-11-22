@@ -73,35 +73,14 @@ export default function GlobalContextProvider({
 
   const router = useRouter();
 
-  // const searchParams = useSearchParams();
-  // get query==============================================================================
-  // useEffect(() => {
-  //   if (searchParams.entries().toArray().length > 0) {
-  //     console.log("searchparams", Array.from(searchParams.entries()));
-  //     const barValue = searchParams.get("selectedBarValue") || null;
-  //     const ageFilter = searchParams.get("ageFilter") || null;
-  //     const genderFilter = searchParams.get("genderFilter") || null;
-  //     const startDate = searchParams.get("startDate") || null;
-  //     const endDate = searchParams.get("endDate") || null;
-
-  //     setSelectedBarValue(barValue);
-  //     setAgeFilter(ageFilter);
-  //     setGenderFilter(genderFilter);
-  //     // setStartDate(startDate)
-  //     // setEndDate(endDate)
-  //   }
-  // }, [searchParams]);
-
   // store sharable url query =========================================
   useEffect(() => {
     const query = new URLSearchParams(storeAllFilters).toString();
     setShareableUrl(query);
-    // console.log("query: ", query);
   }, [storeAllFilters]);
 
   // authenticate ---------------------------
   useEffect(() => {
-    // console.log(Cookies);
     if (Cookies.get("token") !== undefined) {
       setIsAuthUser(true);
       const userData: any = JSON.parse(localStorage.getItem("user")!) || {};
@@ -129,7 +108,6 @@ export default function GlobalContextProvider({
 
     fetchSheetData();
   }, [isAuthUser]);
-  // console.log("raw data: ", rawData);
 
   // format data =======================================================
   useEffect(() => {
@@ -150,8 +128,6 @@ export default function GlobalContextProvider({
     }
   }, [rawData]);
 
-  // console.log("formatted data: ", formattedData);
-
   // save data ==============================
   useEffect(() => {
     if (selectedBarValue) {
@@ -170,7 +146,6 @@ export default function GlobalContextProvider({
       Cookies.remove("genderFilter");
     }
     if (startDate) {
-      // Cookies.set("startDate", startDate.toString());
       Cookies.set("startDate", startDate.toISOString());
     } else {
       Cookies.remove("startDate");

@@ -46,28 +46,32 @@ export const DatePickerComponent = () => {
 
   return (
     <div>
-      <div className="mb-4 flex flex-col gap-4">
-        <span>Start Date: </span>
-        <DatePicker
-          selected={startDate}
-          onChange={handleStartDateChange}
-          // selectsStart
-          // startDate={startDate}
-          // endDate={endDate}
-          dateFormat="dd/MM/yyyy"
-          placeholderText="Select start date"
-        />
-        <span>End Date: </span>
-        <DatePicker
-          selected={endDate}
-          onChange={handleEndDateChange}
-          selectsEnd
-          // startDate={startDate}
-          // endDate={endDate}
-          // minDate={startDate}
-          dateFormat="dd/MM/yyyy"
-          placeholderText="Select end date"
-        />
+      <div className="mb-4 flex flex-col gap-4 *:flex *:justify-between max-md:*:flex-row">
+        <div className="">
+          <span>Start Date: </span>
+          <DatePicker
+            selected={startDate}
+            onChange={handleStartDateChange}
+            // selectsStart
+            // startDate={startDate}
+            // endDate={endDate}
+            dateFormat="dd/MM/yyyy"
+            placeholderText="Select start date"
+          />
+        </div>
+        <div className="">
+          <span>End Date: </span>
+          <DatePicker
+            selected={endDate}
+            onChange={handleEndDateChange}
+            selectsEnd
+            // startDate={startDate}
+            // endDate={endDate}
+            // minDate={startDate}
+            dateFormat="dd/MM/yyyy"
+            placeholderText="Select end date"
+          />
+        </div>
       </div>
     </div>
   );

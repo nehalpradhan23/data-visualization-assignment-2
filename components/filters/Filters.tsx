@@ -49,7 +49,7 @@ export const Filters = () => {
 
   // ================================================================
   return (
-    <div className="flex flex-col h-fit gap-3 max-md:gap-6 ml-10 mt-5 max-md:w-[350px] w-[300px] border bg-gray-100 border-black p-4 mb-5 max-md:flex-col">
+    <div className="flex flex-col h-fit gap-3 max-md:gap-6 mt-5 lg:mr-10 max-md:w-full w-[350px] rounded-3xl border bg-gray-100 border-black p-4 mb-5 max-md:flex-col shadow-xl">
       <div className="flex justify-between items-baseline mb-4">
         <span className="text-2xl font-bold">Filters: </span>
         <span

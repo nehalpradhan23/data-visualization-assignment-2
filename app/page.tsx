@@ -81,25 +81,15 @@ const MainHome: React.FC = () => {
           </button>
           {shareToast && <span>URL copied</span>}
         </div>
-        {/* <div className="flex-1 flex items-center gap-2 border border-gray-200 px-3 py-1 rounded-full bg-slate-200">
-          <button className="border-r border-black px-2">Share URL</button>
-          <label htmlFor="" className="text-gray-400">
-            {shareableUrl}
-          </label>
-        </div> */}
+
         <button className="text-2xl" onClick={handleLogOut}>
           Logout
         </button>
       </div>
-      {/* <div className="">
-        {formattedData?.map((item, index) => (
-          <div key={index}>{JSON.stringify(item)}</div>
-        ))}
-      </div> */}
-      <div className="flex justify-between w-full max-md:flex-col">
+
+      <div className="flex justify-between w-full max-lg:flex-col">
         <MyBarChart />
         <Filters />
-        {/* {selectedBarValue && <Filters />} */}
       </div>
       {selectedBarValue && (
         <div className="">

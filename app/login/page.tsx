@@ -11,12 +11,33 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState<any>(undefined);
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
+
   const {
     userObject: { isAuthUser, setIsAuthUser, setUser },
   } = useGlobalContext();
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
+
     e.preventDefault();
+    if (email.length === 0) {
+      setErrorMessage("Enter email");
+      setLoading(false);
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      setErrorMessage("invalid email");
+      setLoading(false);
+      return;
+    }
+    if (password.length === 0) {
+      setErrorMessage("Password error");
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await axios.post("/api/login", {
         email,
@@ -39,6 +60,9 @@ const LoginPage = () => {
       const axiosError = error as AxiosError;
       console.log(error);
       setErrorMessage(axiosError.response?.data);
+    } finally {
+      setLoading(false);
+      setErrorMessage("");
     }
   };
   // console.log("user data: ", user);
@@ -49,39 +73,47 @@ const LoginPage = () => {
   }, [isAuthUser]);
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center bg-gray-200">
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 *:flex *:gap-3 *:justify-between p-3 border border-black h-fit"
-      >
-        <h2 className="font-bold mx-auto">Login</h2>
-        <div className="">
-          <label>Email</label>
-          <input
-            type="enail"
-            placeholder="Enter email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="">
-          <label>Password</label>
-          <input
-            type="password"
-            placeholder="Enter password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button className="bg-blue-600 text-white mx-auto px-5 hover:bg-blue-700">
-          Login
-        </button>
-        {errorMessage && <span>{JSON.stringify(errorMessage)}</span>}
-      </form>
-      <span
-        className="underline cursor-pointer"
-        onClick={() => router.push("/register")}
-      >
-        Go to Register
-      </span>
+    <div className="w-full h-screen flex flex-col items-center justify-center bg-gray-100">
+      <div className="flex flex-col w-[400px] border border-black h-fit p-5 rounded-3xl shadow-xl bg-slate-200">
+        <h2 className="font-bold text-3xl mx-auto">Login</h2>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-1 flex-col gap-4 *:flex *:gap-3 *:justify-between p-3 h-fit"
+        >
+          <div className="flex flex-col">
+            <label>Email</label>
+            <input
+              type="enail"
+              placeholder="Enter email"
+              onChange={(e) => setEmail(e.target.value)}
+              className="p-2 rounded-full"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Enter password"
+              onChange={(e) => setPassword(e.target.value)}
+              className="p-2 rounded-full"
+            />
+          </div>
+          <button className="bg-blue-600 w-full p-2 rounded-full text-white hover:bg-blue-700 mt-4">
+            <span className="mx-auto">
+              {loading ? "Logging in..." : "Login"}
+            </span>
+          </button>
+        </form>
+        <span
+          className="underline cursor-pointer mt-4 text-center"
+          onClick={() => router.push("/register")}
+        >
+          Go to Register
+        </span>
+        {errorMessage && (
+          <span className="text-red-500">{JSON.stringify(errorMessage)}</span>
+        )}
+      </div>
     </div>
   );
 };

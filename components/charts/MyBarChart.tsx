@@ -107,17 +107,17 @@ export const MyBarChart = () => {
 
   // ===================================================
   return (
-    <div className="w-[40%] max-md:w-full max-lg:w-[60%]">
+    <div className="w-[60%] max-lg:w-full">
       <ResponsiveContainer width="100%" height={350}>
         <BarChart
           layout="vertical"
           data={transformedData}
-          margin={{
-            top: 20,
-            right: 60,
-            left: 5,
-            bottom: 5,
-          }}
+          // margin={{
+          //   top: 20,
+          //   right: 60,
+          //   left: 5,
+          //   bottom: 5,
+          // }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis type="number" />

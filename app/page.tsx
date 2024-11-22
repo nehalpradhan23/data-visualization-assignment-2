@@ -53,7 +53,7 @@ const MainHome: React.FC = () => {
     } else {
       setShareableUrl("");
     }
-    console.log(url);
+    // console.log(url);
   }, []);
 
   useEffect(() => {

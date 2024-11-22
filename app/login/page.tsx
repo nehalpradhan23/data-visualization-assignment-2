@@ -73,11 +73,11 @@ const LoginPage = () => {
     if (isAuthUser) router.push("/");
   }, [isAuthUser]);
 
-  console.log("is URL: ==============", isUrl);
+  // console.log("is URL: ==============", isUrl);
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center bg-gray-100 relative">
-      {isUrl && (
+      {isUrl && !isAuthUser && (
         <div className="absolute top-4 bg-green-600 text-3xl px-4 py-2 rounded-full shadow-xl text-white">
           Login to view the data
         </div>

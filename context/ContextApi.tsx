@@ -67,20 +67,31 @@ export default function GlobalContextProvider({
   const [user, setUser] = useState<undefined>(undefined);
   const [isAuthUser, setIsAuthUser] = useState<boolean | undefined>(undefined);
 
-  const [storeAllFilters, setStoreAllFilters] = useState({});
+  const [storeAllFilters, setStoreAllFilters] = useState({}); // store for filters for sharing
 
-  const [shareableUrl, setShareableUrl] = useState<string>("");
+  const [shareableUrl, setShareableUrl] = useState<string>(""); // sharable url
+
+  // const [storeSearchParams, setStoreSearchParams] = useState("");
+
+  // const [sharableQuery, setSharableQuery] = useState(
+  //   Cookies.get("sharableQuery") || ""
+  // );
 
   const router = useRouter();
+
+  // console.log("All filters: ", storeAllFilters);
 
   // store sharable url query =========================================
   useEffect(() => {
     const query = new URLSearchParams(storeAllFilters).toString();
+    // Cookies.set("sharableQuery", sharableQuery);
     setShareableUrl(query);
+    // setSharableQuery(shareableUrl);
   }, [storeAllFilters]);
 
   // authenticate ---------------------------
   useEffect(() => {
+    // if (sharableQuery) setShareableUrl(sharableQuery);
     if (Cookies.get("token") !== undefined) {
       setIsAuthUser(true);
       const userData: any = JSON.parse(localStorage.getItem("user")!) || {};
@@ -155,7 +166,17 @@ export default function GlobalContextProvider({
     } else {
       Cookies.remove("endDate");
     }
-  }, [selectedBarValue, ageFilter, genderFilter, startDate, endDate]);
+    // if (storeAllFilters) {
+    //   Cookies.set("sharableQuery", shareableUrl);
+    // }
+  }, [
+    selectedBarValue,
+    ageFilter,
+    genderFilter,
+    startDate,
+    endDate,
+    // storeAllFilters,
+  ]);
 
   // ==============================================
   return (

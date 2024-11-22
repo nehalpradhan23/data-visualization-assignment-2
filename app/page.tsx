@@ -17,6 +17,7 @@ const MainHome: React.FC = () => {
     ageFilterObject: { setAgeFilter },
     genderFilterObject: { setGenderFilter },
     dateObject: { setStartDate, setEndDate },
+    storeAllFiltersObject: { storeAllFilters, setStoreAllFilters },
   } = useGlobalContext();
 
   const router = useRouter();
@@ -50,7 +51,7 @@ const MainHome: React.FC = () => {
 
   useEffect(() => {
     if (searchParams.entries().toArray().length > 0) {
-      console.log("searchparams", Array.from(searchParams.entries()));
+      // console.log("searchparams", Array.from(searchParams.entries()));
       const barValue = searchParams.get("selectedBarValue") || null;
       const ageFilter = searchParams.get("ageFilter") || null;
       const genderFilter = searchParams.get("genderFilter") || null;
@@ -65,7 +66,10 @@ const MainHome: React.FC = () => {
       setGenderFilter(genderFilter);
       setStartDate(newStartDate);
       setEndDate(newEndDate);
+
+      setStoreAllFilters(Object.fromEntries(searchParams)); // store sharable url i search params
     }
+
     if (isAuthUser === undefined) router.push("/login");
   }, [searchParams]);
   // =========================================================

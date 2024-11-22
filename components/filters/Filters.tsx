@@ -2,7 +2,6 @@ import { useGlobalContext } from "@/context/ContextApi";
 import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { DatePickerComponent } from "./DatePickerComponent";
-import { parse } from "date-fns";
 import { handleFilterChange } from "@/utils/saveFilterData";
 import { parseDate } from "@/utils/getDate";
 
